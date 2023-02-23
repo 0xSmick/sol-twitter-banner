@@ -40,9 +40,6 @@ export const NftCard: FC<NftCardProps> = ({ imageUrl }) => {
           onLoad={handleImageLoad}
         />
       </div>
-      <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2">Card Title</div>
-      </div>
     </div>
   );
 };
