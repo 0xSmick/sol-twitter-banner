@@ -2,9 +2,15 @@ import { useState, FC } from "react";
 
 interface NftCardProps {
   imageUrl: string;
+  imageName: string;
+  mintAddress: string;
 }
 
-export const NftCard: FC<NftCardProps> = ({ imageUrl }) => {
+export const NftCard: FC<NftCardProps> = ({
+  imageUrl,
+  mintAddress,
+  imageName,
+}) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   const handleImageLoad = () => {
@@ -32,6 +38,7 @@ export const NftCard: FC<NftCardProps> = ({ imageUrl }) => {
           </div>
         )}
         <img
+          key={mintAddress}
           src={imageUrl}
           alt="Card Image"
           className={`w-full h-full object-cover transition-opacity ${
@@ -39,6 +46,11 @@ export const NftCard: FC<NftCardProps> = ({ imageUrl }) => {
           }`}
           onLoad={handleImageLoad}
         />
+      </div>
+      <div>
+        <div className="px-6 py-4">
+          <div className="font-bold text-xl mb-2">{imageName}</div>
+        </div>
       </div>
     </div>
   );
