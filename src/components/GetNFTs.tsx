@@ -55,7 +55,7 @@ export const GetNFTs: FC = () => {
       </button>
       {nftList && (
         <div>
-          <p>Found {nftCount} NFTs</p>
+          <p>Fetching {nftCount} NFTs</p>
         </div>
       )}
       {nftList && (

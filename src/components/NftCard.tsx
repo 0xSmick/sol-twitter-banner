@@ -4,12 +4,16 @@ interface NftCardProps {
   imageUrl: string;
   imageName: string;
   mintAddress: string;
+  onClick: () => void;
+  isSelected?: boolean;
 }
 
 export const NftCard: FC<NftCardProps> = ({
   imageUrl,
   mintAddress,
   imageName,
+  onClick,
+  isSelected,
 }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
@@ -43,8 +47,9 @@ export const NftCard: FC<NftCardProps> = ({
           alt="Card Image"
           className={`w-full h-full object-cover transition-opacity ${
             isImageLoaded ? "opacity-100" : "opacity-0"
-          }`}
+          } ${isSelected ? "border-4 border-blue-500" : ""}}`}
           onLoad={handleImageLoad}
+          onClick={onClick}
         />
       </div>
       <div>

@@ -1,0 +1,7 @@
+todo
+* fetching animation
+* update context to properly count the number of nfts selected
+* add button which creates the banner image
+* function which passes the NFT's to either lambda or a mosaic / screenshotter
+* request to pay sol for the function
+

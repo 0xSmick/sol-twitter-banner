@@ -1,10 +1,12 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useAutoConnect } from "../contexts/AutoConnectProvider";
+import { SelectedNftsContext } from "contexts/selectedNftsContext";
 
 export const AppBar: FC = (props) => {
   const { autoConnect, setAutoConnect } = useAutoConnect();
+  const { numSelectedNfts } = useContext(SelectedNftsContext);
 
   return (
     <div>
@@ -96,6 +98,7 @@ export const AppBar: FC = (props) => {
 
         {/* Wallet & Settings */}
         <div className="navbar-end">
+          <div className="navbar-item">{numSelectedNfts} NFTs selected</div>
           <div className="dropdown">
             <div tabIndex={0} className="btn btn-square btn-ghost text-right">
               <svg

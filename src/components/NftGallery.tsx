@@ -1,7 +1,7 @@
-import { FC, useCallback, useEffect } from "react";
+import { FC, useCallback, useEffect, useContext } from "react";
 import { NftCard } from "./NftCard";
 import { useState } from "react";
-import { Nft } from "@metaplex-foundation/js";
+import { SelectedNftsContext } from "../contexts/selectedNftsContext";
 
 interface NftGalleryProps {
   nftList: any[];
@@ -15,7 +15,19 @@ type NftResponse = {
 
 export const NftGallery: FC<NftGalleryProps> = ({ nftList }) => {
   const [fetchedItems, setFetchedItems] = useState([]);
-  const [selectedImageIds, setSelectedImageids] = useState([]);
+  const [selectedNftIds, setSelectedNftids] = useState([]);
+  const { setNumSelectedNfts } = useContext(SelectedNftsContext);
+
+  const handleImageClick = (index: number) => {
+    const isSelected = selectedNftIds.includes(index);
+    setSelectedNftids(
+      isSelected
+        ? selectedNftIds.filter((i) => i !== index)
+        : [...selectedNftIds, index]
+    );
+    setNumSelectedNfts(selectedNftIds.length);
+    console.log(selectedNftIds);
+  };
 
   useEffect(() => {
     const fetchedItemList = [];
@@ -42,6 +54,10 @@ export const NftGallery: FC<NftGalleryProps> = ({ nftList }) => {
     fetchMetadata();
   }, []);
 
+  useEffect(() => {
+    setNumSelectedNfts(selectedNftIds.length);
+  }, [selectedNftIds, setSelectedNftids]);
+
   return (
     <section className="overflow-hidden text-neutral-700 p-4 mt-2">
       <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
@@ -53,6 +69,8 @@ export const NftGallery: FC<NftGalleryProps> = ({ nftList }) => {
                   imageUrl={item.image}
                   mintAddress={item.mintAddress}
                   imageName={item.name}
+                  onClick={() => handleImageClick(item.mintAddress)}
+                  isSelected={selectedNftIds.includes(item.mintAddress)}
                 />
               </div>
             </div>
