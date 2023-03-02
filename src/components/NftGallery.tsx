@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useContext } from "react";
 import { NftCard } from "./NftCard";
 import { useState } from "react";
-import { SelectedNftsContext } from "../contexts/selectedNftsContext";
+import { SelectedItemsContext } from "../contexts/SelectedItemsContext";
 
 interface NftGalleryProps {
   nftList: any[];
@@ -15,18 +15,16 @@ type NftResponse = {
 
 export const NftGallery: FC<NftGalleryProps> = ({ nftList }) => {
   const [fetchedItems, setFetchedItems] = useState([]);
-  const [selectedNftIds, setSelectedNftids] = useState([]);
-  const { setNumSelectedNfts } = useContext(SelectedNftsContext);
+  const { selectedItems, setSelectedItems } = useContext(SelectedItemsContext);
 
-  const handleImageClick = (index: number) => {
-    const isSelected = selectedNftIds.includes(index);
-    setSelectedNftids(
+  const handleImageClick = (index: string) => {
+    const isSelected = selectedItems.includes(index);
+    setSelectedItems(
       isSelected
-        ? selectedNftIds.filter((i) => i !== index)
-        : [...selectedNftIds, index]
+        ? selectedItems.filter((i) => i !== index)
+        : [...selectedItems, index]
     );
-    setNumSelectedNfts(selectedNftIds.length);
-    console.log(selectedNftIds);
+    console.log(selectedItems);
   };
 
   useEffect(() => {
@@ -54,10 +52,6 @@ export const NftGallery: FC<NftGalleryProps> = ({ nftList }) => {
     fetchMetadata();
   }, []);
 
-  useEffect(() => {
-    setNumSelectedNfts(selectedNftIds.length);
-  }, [selectedNftIds, setSelectedNftids]);
-
   return (
     <section className="overflow-hidden text-neutral-700 p-4 mt-2">
       <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
@@ -70,7 +64,7 @@ export const NftGallery: FC<NftGalleryProps> = ({ nftList }) => {
                   mintAddress={item.mintAddress}
                   imageName={item.name}
                   onClick={() => handleImageClick(item.mintAddress)}
-                  isSelected={selectedNftIds.includes(item.mintAddress)}
+                  isSelected={selectedItems.includes(item.mintAddress)}
                 />
               </div>
             </div>
