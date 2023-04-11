@@ -1,19 +1,23 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { FC, useCallback } from "react";
 import { notify } from "../utils/notifications";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import { Metaplex } from "@metaplex-foundation/js";
 import { PublicKey } from "@solana/web3.js";
 import { NftGallery } from "./NftGallery";
+import { SelectedItemsContext } from "../contexts/SelectedItemsContext";
+import BannerModal from "./BannerModal";
 
 export const GetNFTs: FC = () => {
+  const { fetchedUrl } = useContext(SelectedItemsContext);
   const { connection } = useConnection();
   const { publicKey } = useWallet();
   const [nftList, setNftList] = useState(null);
   const [loading, setLoading] = useState(false);
   const [nftCount, setNftCount] = useState(0);
   const perPage = 5;
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onClick = useCallback(async () => {
     if (!publicKey) {
@@ -45,8 +49,15 @@ export const GetNFTs: FC = () => {
     }
   }, [publicKey, connection, setNftList]);
 
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="">
+      {fetchedUrl.length > 0 && (
+        <BannerModal imageUrl={fetchedUrl} onClose={handleModalClose} />
+      )}
       <button
         className="px-4 m-2 btn animate-pulse bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500 ..."
         onClick={onClick}

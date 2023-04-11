@@ -1,16 +1,52 @@
-import { FC, useContext } from "react";
-
+import { FC, useContext, useState, useEffect, useCallback } from "react";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useAutoConnect } from "../contexts/AutoConnectProvider";
 import { SelectedItemsContext } from "../contexts/SelectedItemsContext";
 
 export const AppBar: FC = (props) => {
-  const { autoConnect, setAutoConnect } = useAutoConnect();
-  const { selectedItems } = useContext(SelectedItemsContext);
-  const handleMint = () => {
+  const { publicKey } = useWallet();
+  const { selectedItems, setSelectedItems } = useContext(SelectedItemsContext);
+  const [fetchedUrl, setFetchedUrl] = useState("");
+
+  const handleMint = async () => {
+    console.log({ selectedItems });
     console.log("Minting");
-    console.log(selectedItems);
+    console.log({
+      wallet: publicKey.toBase58(),
+      items: selectedItems.map((item) => item.image),
+    });
+    try {
+      const response = await fetch(
+        "https://xytl3lxjk2.execute-api.us-east-1.amazonaws.com/dev/banner",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            wallet: publicKey.toBase58(),
+            items: selectedItems.map((item) => item.image),
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = await response.json();
+      console.log(data);
+      setFetchedUrl(data.url);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  const clearSelectedItems = () => {
+    setSelectedItems([]);
+  };
+
+  useEffect(() => {
+    console.log(`fetchedUrl: ${fetchedUrl}`);
+  }, [fetchedUrl]);
+
   return (
     <div>
       {/* NavBar / Header */}
@@ -108,8 +144,18 @@ export const AppBar: FC = (props) => {
             <button
               className="px-4 m-5 btn animate-pulse bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500 ..."
               onClick={handleMint}
+              disabled={selectedItems.length !== 12}
             >
-              <span>Mint</span>
+              <span>Mint Banner</span>
+            </button>
+          </div>
+          <div className="navbar-item">
+            <button
+              className="px-4 m-5 btn"
+              onClick={clearSelectedItems}
+              disabled={selectedItems.length == 0}
+            >
+              <span>Clear Items</span>
             </button>
           </div>
           <WalletMultiButton className="btn btn-ghost mr-4" />

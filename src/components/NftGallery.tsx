@@ -34,13 +34,15 @@ export const NftGallery: FC<NftGalleryProps> = ({ nftList }) => {
         try {
           const metadataFetch = await fetch(item.uri);
           const metadataResponse = await metadataFetch.json();
-          const nft: NftResponse = {
-            image: metadataResponse.image,
-            name: metadataResponse.name,
-            mintAddress: item.mintAddress,
-          };
-          fetchedItemList.push(nft);
-          console.log("fetched");
+          if (metadataResponse.image.height === metadataResponse.image.width) {
+            const nft: NftResponse = {
+              image: metadataResponse.image,
+              name: metadataResponse.name,
+              mintAddress: item.mintAddress,
+            };
+            fetchedItemList.push(nft);
+            console.log("fetched");
+          }
         } catch (error) {
           console.log("error", error);
         }
@@ -50,7 +52,7 @@ export const NftGallery: FC<NftGalleryProps> = ({ nftList }) => {
       setFetchedItems(fetchedItemList);
     };
     fetchMetadata();
-  }, []);
+  }, [nftList]);
 
   return (
     <section className="overflow-hidden text-neutral-700 p-4 mt-2">
@@ -63,8 +65,8 @@ export const NftGallery: FC<NftGalleryProps> = ({ nftList }) => {
                   imageUrl={item.image}
                   mintAddress={item.mintAddress}
                   imageName={item.name}
-                  onClick={() => handleImageClick(item.mintAddress)}
-                  isSelected={selectedItems.includes(item.mintAddress)}
+                  onClick={() => handleImageClick(item)}
+                  isSelected={selectedItems.includes(item)}
                 />
               </div>
             </div>

@@ -34,7 +34,7 @@ export const HomeView: FC = ({}) => {
           <span className="text-sm font-normal align-top text-slate-700"></span>
         </h1>
         <h4 className="md:w-full text-center text-slate-300 my-2">
-          <p>Turn your favorite NFTs into a twitter banner</p>
+          <p>Show off your top NFTs in your own personalized twitter banner</p>
         </h4>
         <div className="text-center p-4 flex-col align-items ">
           <GetNFTs />
