@@ -44,7 +44,7 @@ export const NftCard: FC<NftCardProps> = ({
         <img
           key={mintAddress}
           src={imageUrl}
-          alt="Card Image"
+          alt={imageName}
           className={`w-full h-full object-cover transition-opacity ${
             isImageLoaded ? "opacity-100" : "opacity-0"
           } ${isSelected ? "border-4 border-blue-500" : ""}}`}
@@ -53,9 +53,11 @@ export const NftCard: FC<NftCardProps> = ({
         />
       </div>
       <div>
-        <div className="px-6 py-4">
-          <div className="font-bold text-xl mb-2">{imageName}</div>
-        </div>
+        {window.innerWidth > 768 && (
+          <div className="px-6 py-4">
+            <div className="font-bold text-xl mb-2">{imageName}</div>
+          </div>
+        )}
       </div>
     </div>
   );

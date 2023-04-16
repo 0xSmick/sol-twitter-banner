@@ -5,6 +5,8 @@ type SelectedItemsContextType = {
   setSelectedItems: (items: object[]) => void;
   fetchedUrl: string;
   setFetchedUrl: (url: string) => void;
+  sentResponse: boolean;
+  setSentResponse: (response: boolean) => void;
 };
 
 export const SelectedItemsContext = createContext<SelectedItemsContextType>({
@@ -12,17 +14,22 @@ export const SelectedItemsContext = createContext<SelectedItemsContextType>({
   setSelectedItems: () => {},
   fetchedUrl: "",
   setFetchedUrl: () => {},
+  sentResponse: false,
+  setSentResponse: () => {},
 });
 
 export const SelectedItemsProvider: React.FC = ({ children }) => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [fetchedUrl, setFetchedUrl] = useState<string>("");
+  const [sentResponse, setSentResponse] = useState<boolean>(false);
 
   const contextValue: SelectedItemsContextType = {
     selectedItems,
     setSelectedItems,
-    fetchedUrl: "",
+    fetchedUrl,
     setFetchedUrl,
+    sentResponse,
+    setSentResponse,
   };
 
   return (
