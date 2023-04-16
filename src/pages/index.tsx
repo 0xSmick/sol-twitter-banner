@@ -6,10 +6,10 @@ const Home: NextPage = (props) => {
   return (
     <div>
       <Head>
-        <title>Solana Scaffold</title>
+        <title>Shill Your Banner</title>
         <meta
           name="description"
-          content="Solana Scaffold"
+          content="Shill Your Banner is a tool to create a custom twitter banner using your favorite NFTs"
         />
       </Head>
       <HomeView />
