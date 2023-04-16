@@ -106,15 +106,6 @@ export const AppBar: FC = (props) => {
               <span>Create Banner</span>
             </button>
           </div>
-          <div className="navbar-item">
-            <button
-              className="px-4 m-5 btn"
-              onClick={clearSelectedItems}
-              disabled={selectedItems.length == 0}
-            >
-              <span>Clear Items</span>
-            </button>
-          </div>
           <WalletMultiButton className="btn btn-ghost mr-4" />
         </div>
       </div>

@@ -64,7 +64,12 @@ export const NftGallery: FC<NftGalleryProps> = ({ nftList }) => {
       <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
         <div className="-m-1 flex flex-wrap md:-m-4">
           {fetchedItems.map((item) => (
-            <div className="flex w-1/5 flex-wrap" key={item.mintAddress}>
+            <div
+              className={`flex ${
+                window.innerWidth > 768 ? "w-1/5" : "w-1/4"
+              } flex-wrap`}
+              key={item.mintAddress}
+            >
               <div className="w-full p-1 md:p-2">
                 <NftCard
                   imageUrl={item.image}

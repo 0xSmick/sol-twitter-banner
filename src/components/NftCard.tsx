@@ -1,4 +1,5 @@
 import { useState, FC } from "react";
+import Image from "next/image";
 
 interface NftCardProps {
   imageUrl: string;

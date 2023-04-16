@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import Image from "next/image";
 import { SelectedItemsContext } from "../contexts/SelectedItemsContext";
 import { InfinitySpin } from "react-loader-spinner"; // Import the react-loader-spinner library
 
@@ -57,6 +58,13 @@ const BannerModal = ({ imageUrl }) => {
                 alt="Twitter Banner"
                 className="w-full h-full object-cover"
               />
+              <a
+                href={imageUrl}
+                download="twitter-banner.jpg"
+                className="inline-block mt-4 px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
+              >
+                Download Image
+              </a>
             </div>
             <button
               onClick={handleClose}

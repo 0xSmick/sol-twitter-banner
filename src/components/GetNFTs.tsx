@@ -16,10 +16,7 @@ export const GetNFTs: FC = () => {
   const { connection } = useConnection();
   const { publicKey } = useWallet();
   const [nftList, setNftList] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [nftCount, setNftCount] = useState(0);
-  const perPage = 5;
-  const [modalOpen, setModalOpen] = useState(false);
 
   const onClick = useCallback(async () => {
     if (!publicKey) {
@@ -51,16 +48,21 @@ export const GetNFTs: FC = () => {
     }
   }, [publicKey, connection, setNftList]);
 
-  const handleModalClose = () => {
-    setModalOpen(false);
-    console.log("modal closed");
+  const clearSelectedItems = () => {
+    setSelectedItems([]);
   };
 
   return (
-    <div className="">
+    <div className="flex flex-col justify-between gap-2 items-center">
       {sentResponse && <BannerModal imageUrl={fetchedUrl} />}
       <button
-        className="px-4 m-2 btn animate-pulse bg-gradient-to-r from-[#9945FF] to-[#9945FF] hover:from-[#14F195] hover:to-[#14F195] hover:bg-gradient-to-r text-white rounded-md py-2"
+        className="max-w-md px-4 m-2 btn rounded-md py-2"
+        onClick={clearSelectedItems}
+      >
+        <span>Clear Selected Items</span>
+      </button>
+      <button
+        className="max-w-md px-4 m-2 btn animate-pulse bg-gradient-to-r from-[#9945FF] to-[#9945FF] hover:from-[#14F195] hover:to-[#14F195] hover:bg-gradient-to-r text-white rounded-md py-2"
         onClick={onClick}
       >
         <span>Fetch NFTs</span>
