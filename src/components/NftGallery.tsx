@@ -13,16 +13,22 @@ type NftResponse = {
   mintAddress: string;
 };
 
+type Item = {
+  image: string;
+};
+
 export const NftGallery: FC<NftGalleryProps> = ({ nftList }) => {
   const [fetchedItems, setFetchedItems] = useState([]);
   const { selectedItems, setSelectedItems } = useContext(SelectedItemsContext);
 
-  const handleImageClick = (index: string) => {
-    const isSelected = selectedItems.includes(index);
+  const handleImageClick = (item: Item) => {
+    const isSelected = selectedItems.some(
+      (selectedItem) => selectedItem.image === item.image
+    );
     setSelectedItems(
       isSelected
-        ? selectedItems.filter((i) => i !== index)
-        : [...selectedItems, index]
+        ? selectedItems.filter((i) => i.image !== item.image)
+        : [...selectedItems, item]
     );
   };
 

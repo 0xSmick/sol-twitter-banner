@@ -1,8 +1,12 @@
 import React, { createContext, useState } from "react";
 
+type Item = {
+  image: string;
+};
+
 type SelectedItemsContextType = {
-  selectedItems: string[];
-  setSelectedItems: (items: object[]) => void;
+  selectedItems: Item[];
+  setSelectedItems: (items: Item[]) => void;
   fetchedUrl: string;
   setFetchedUrl: (url: string) => void;
   sentResponse: boolean;
@@ -19,7 +23,7 @@ export const SelectedItemsContext = createContext<SelectedItemsContextType>({
 });
 
 export const SelectedItemsProvider: React.FC = ({ children }) => {
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [selectedItems, setSelectedItems] = useState<Item[]>([]);
   const [fetchedUrl, setFetchedUrl] = useState<string>("");
   const [sentResponse, setSentResponse] = useState<boolean>(false);
 
