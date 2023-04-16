@@ -61,9 +61,10 @@ const BannerModal = ({ imageUrl }) => {
               <a
                 href={imageUrl}
                 download="twitter-banner.jpg"
+                target="_blank"
                 className="inline-block mt-4 px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
               >
-                Download Image
+                Download
               </a>
             </div>
             <button
