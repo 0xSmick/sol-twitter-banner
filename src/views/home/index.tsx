@@ -30,16 +30,15 @@ export const HomeView: FC = ({}) => {
     <div className="md:hero mx-auto p-4">
       <div className="md:hero-content flex flex-col">
         <h1 className="text-center text-6xl md:pl-12 font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
-          Shill Your Banner
+          Shill Your Twitter Banner
           <span className="text-sm font-normal align-top text-slate-700"></span>
         </h1>
         <h4 className="md:w-full text-center text-slate-300 my-2">
-          <p>
-            Connect your wallet, select your 12 favorite NFTs, and create your
-            own twitter banner
-          </p>
+          <p>Connect your wallet</p>
+          <p>Select your 12 favorite NFTs</p>
+          <p>Shill your bag</p>
         </h4>
-        <div className="text-center p-4 flex-col align-items ">
+        <div className="text-center p-0.5 flex-col align-items ">
           <GetNFTs />
         </div>
       </div>

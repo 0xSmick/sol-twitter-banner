@@ -99,7 +99,7 @@ export const AppBar: FC = (props) => {
           </div>
           <div className="navbar-item">
             <button
-              className="px-4 m-5 btn bg-teal-500 text-white rounded-md self-center hover:from[teal-500] hover:to[teal-600]"
+              className="px-4 mr-4 ml-4 btn bg-teal-500 text-white rounded-md self-center hover:from[teal-500] hover:to[teal-600]"
               onClick={handleMint}
               disabled={selectedItems.length !== 12}
             >

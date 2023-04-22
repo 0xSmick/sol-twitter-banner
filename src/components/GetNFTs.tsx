@@ -16,7 +16,7 @@ export const GetNFTs: FC = () => {
   const { connection } = useConnection();
   const { publicKey } = useWallet();
   const [nftList, setNftList] = useState(null);
-  const [nftCount, setNftCount] = useState(0);
+  const [isFetchButtonClicked, setFetchButtonClicked] = useState(false);
 
   const onClick = useCallback(async () => {
     if (!publicKey) {
@@ -28,14 +28,22 @@ export const GetNFTs: FC = () => {
       });
       return;
     }
-
+    if (isFetchButtonClicked) {
+      console.log("error", "Already fetching NFTs!");
+      notify({
+        type: "error",
+        message: "error",
+        description: "Already fetching NFTs!",
+      });
+      return;
+    }
     try {
+      setFetchButtonClicked(true);
       const mx = Metaplex.make(connection);
       const list = await mx
         .nfts()
         .findAllByOwner({ owner: new PublicKey(publicKey.toBase58()) });
       setNftList(list);
-      setNftCount(list.length);
 
       console.log("list", list);
     } catch (error: any) {
@@ -55,23 +63,21 @@ export const GetNFTs: FC = () => {
   return (
     <div className="flex flex-col justify-between gap-2 items-center">
       {sentResponse && <BannerModal imageUrl={fetchedUrl} />}
-      <button
-        className="max-w-md px-4 m-2 btn rounded-md py-2"
-        onClick={clearSelectedItems}
-      >
-        <span>Clear Selected Items</span>
-      </button>
-      <button
-        className="max-w-md px-4 m-2 btn animate-pulse bg-gradient-to-r from-[#9945FF] to-[#9945FF] hover:from-[#14F195] hover:to-[#14F195] hover:bg-gradient-to-r text-white rounded-md py-2"
-        onClick={onClick}
-      >
-        <span>Fetch NFTs</span>
-      </button>
-      {nftList && (
-        <div>
-          <p>Fetching {nftCount} NFTs</p>
-        </div>
-      )}
+      <div className="flex justify-between gap-2 items-center">
+        <button
+          className="max-w-md px-4 m-2 btn rounded-md py-2"
+          onClick={clearSelectedItems}
+        >
+          <span>Clear Items</span>
+        </button>
+        <button
+          className="max-w-md px-4 m-2 btn animate-pulse bg-gradient-to-r from-[#9945FF] to-[#9945FF] hover:from-[#14F195] hover:to-[#14F195] hover:bg-gradient-to-r text-white rounded-md py-2"
+          onClick={onClick}
+          disabled={isFetchButtonClicked}
+        >
+          <span>Fetch NFTs</span>
+        </button>
+      </div>
       {nftList && (
         <div>
           <NftGallery nftList={nftList} />

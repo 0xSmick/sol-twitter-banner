@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useContext } from "react";
+import { FC, useEffect, useContext } from "react";
 import { NftCard } from "./NftCard";
 import { useState } from "react";
 import { SelectedItemsContext } from "../contexts/SelectedItemsContext";
@@ -19,6 +19,7 @@ type Item = {
 
 export const NftGallery: FC<NftGalleryProps> = ({ nftList }) => {
   const [fetchedItems, setFetchedItems] = useState([]);
+  const [fetchItemCount, setFetchedItemCount] = useState(0);
   const { selectedItems, setSelectedItems } = useContext(SelectedItemsContext);
 
   const handleImageClick = (item: Item) => {
@@ -46,6 +47,7 @@ export const NftGallery: FC<NftGalleryProps> = ({ nftList }) => {
               mintAddress: item.mintAddress,
             };
             fetchedItemList.push(nft);
+            setFetchedItemCount(fetchedItemList.length);
             console.log("fetched");
           }
         } catch (error) {
@@ -61,6 +63,7 @@ export const NftGallery: FC<NftGalleryProps> = ({ nftList }) => {
 
   return (
     <section className="overflow-hidden text-neutral-700 p-4 mt-2">
+      <div>{fetchItemCount} NFTs found</div>
       <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
         <div className="-m-1 flex flex-wrap md:-m-4">
           {fetchedItems.map((item) => (
