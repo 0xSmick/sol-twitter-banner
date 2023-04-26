@@ -19,8 +19,20 @@ export const NftCard: FC<NftCardProps> = ({
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   const handleImageLoad = () => {
-    setIsImageLoaded(true);
+    try {
+      setIsImageLoaded(true);
+    } catch (e) {
+      console.log("error loading image", e);
+    }
   };
+
+  const handleImageError = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.style.display = "none";
+  };
+
   return (
     <div className="max-w-sm mx-auto rounded overflow-hidden shadow-lg">
       <div className="relative aspect-w-16 aspect-h-9">
@@ -50,6 +62,7 @@ export const NftCard: FC<NftCardProps> = ({
             isImageLoaded ? "opacity-100" : "opacity-0"
           } ${isSelected ? "border-4 border-blue-500" : ""}}`}
           onLoad={handleImageLoad}
+          onError={handleImageError}
           onClick={onClick}
         />
       </div>

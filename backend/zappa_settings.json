@@ -1,0 +1,17 @@
+{
+  "dev": {
+    "slim_handler": true,
+    "cors": true,
+    "app_function": "app.app",
+    "aws_region": "us-east-1",
+    "profile_name": "default",
+    "project_name": "backend-twit",
+    "runtime": "python3.9",
+    "s3_bucket": "zappa-cuv7t9ma9",
+    "aws_environment_variables": {
+      "AWS_S3_BUCKET_IMAGES": "twitter-banners-smick",
+      "aws_key": "AKIAXUO3CXUAJWHHDT4G",
+      "aws_secret": "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"
+    }
+  }
+}

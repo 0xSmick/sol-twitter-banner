@@ -34,30 +34,66 @@ export const NftGallery: FC<NftGalleryProps> = ({ nftList }) => {
   };
 
   useEffect(() => {
-    const fetchedItemList = [];
     const fetchMetadata = async () => {
-      for (const item of nftList) {
-        try {
-          const metadataFetch = await fetch(item.uri);
-          const metadataResponse = await metadataFetch.json();
-          if (metadataResponse.image.height === metadataResponse.image.width) {
-            const nft: NftResponse = {
-              image: metadataResponse.image,
-              name: metadataResponse.name,
-              mintAddress: item.mintAddress,
-            };
-            fetchedItemList.push(nft);
-            setFetchedItemCount(fetchedItemList.length);
-            console.log("fetched");
-          }
-        } catch (error) {
-          console.log("error", error);
-        }
-      }
-      console.log("completed fetching images");
+      const batchSize = 20; // number of images to fetch at once
+      const batches = chunk(nftList, batchSize); // split the list into batches
+      const abortController = new AbortController();
 
-      setFetchedItems(fetchedItemList);
+      try {
+        const fetchedMintAddresses = new Set(); // Set to keep track of mint addresses of fetched items
+        const promises = batches.map(async (batch) => {
+          const fetchPromises = batch.map(async (item) => {
+            const signal = abortController.signal;
+
+            if (fetchedMintAddresses.has(item.mintAddress)) {
+              // Check if item has already been fetched
+              return null;
+            }
+
+            try {
+              const metadataFetch = await fetch(item.uri, { signal });
+              const metadataResponse = await metadataFetch.json();
+
+              if (
+                metadataResponse.image.height !== metadataResponse.image.width
+              ) {
+                return null;
+              }
+
+              const nft: NftResponse = {
+                image: metadataResponse.image,
+                name: metadataResponse.name,
+                mintAddress: item.mintAddress,
+              };
+
+              fetchedMintAddresses.add(item.mintAddress); // Add mint address of fetched item to Set
+
+              return nft;
+            } catch (error) {
+              console.log("error", error);
+              return null;
+            }
+          });
+
+          const fetchedItems = await Promise.all(fetchPromises);
+          const filteredItems = fetchedItems.filter((item) => item !== null);
+
+          setFetchedItems((prevItems) => [...prevItems, ...filteredItems]);
+          setFetchedItemCount((count) => count + filteredItems.length);
+        });
+
+        await Promise.all(promises);
+        console.log("completed fetching images");
+      } catch (error) {
+        console.log("fetchMetadata aborted:", error);
+      }
     };
+
+    // helper function to split an array into batches
+    const chunk = (arr, size) =>
+      Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
+        arr.slice(i * size, i * size + size)
+      );
     fetchMetadata();
   }, [nftList]);
 
