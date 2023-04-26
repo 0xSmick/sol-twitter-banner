@@ -73,7 +73,7 @@ const BannerModal = ({ imageUrl }) => {
         ) : (
           <div>
             <h1 className="text-white text-center mb-6">
-              Go shill your banner on Twitter (be sure and copy / save it)
+              Go shill that bag on Twitter (be sure to copy / save it)
             </h1>
             <div>
               <img
