@@ -20,7 +20,7 @@ export const AppBar: FC = (props) => {
       setSentResponse(true);
       console.log(fetchedUrl);
       const response = await fetch(
-        "https://xytl3lxjk2.execute-api.us-east-1.amazonaws.com/dev/banner",
+        "https://5ho9n2e0x2.execute-api.us-east-1.amazonaws.com/dev/banner",
         {
           method: "POST",
           body: JSON.stringify({

@@ -2,6 +2,7 @@ import { FC, useEffect, useContext } from "react";
 import { NftCard } from "./NftCard";
 import { useState } from "react";
 import { SelectedItemsContext } from "../contexts/SelectedItemsContext";
+import _ from "lodash";
 
 interface NftGalleryProps {
   nftList: any[];
@@ -78,7 +79,9 @@ export const NftGallery: FC<NftGalleryProps> = ({ nftList }) => {
           const fetchedItems = await Promise.all(fetchPromises);
           const filteredItems = fetchedItems.filter((item) => item !== null);
 
-          setFetchedItems((prevItems) => [...prevItems, ...filteredItems]);
+          setFetchedItems((prevItems) =>
+            _.uniqBy([...prevItems, ...filteredItems], "mintAddress")
+          );
           setFetchedItemCount((count) => count + filteredItems.length);
         });
 
